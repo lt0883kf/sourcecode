@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/css/styles.css}" rel="stylesheet">
+<title>家計簿</title>
+</head>
+<body>
+
+	<div th:replace="~{block/header::headerAccount}"></div>
+
+	<h1>年別月別集計</h1>
+
+	<form method="post" th:action="@{/account/findByYearAndMonth}">
+		集計したい年月：
+		<input type="text" name="year" oninput="sliceMaxLength(this, 4)" size="4" required>年
+		<input type="text" name="month" oninput="sliceMaxLength(this, 4)" size="4" required>月<br> <br>
+		<input type="submit" value="年別月別集計">
+	</form>
+
+	<h3 th:if="${year != null}" th:text="${year} + '年' + ${month} + '月の集計'"></h3>
+
+	<div th:if=" ${list !=null}">
+		<table class="table table-striped">
+			<tr>
+				<th>No</th>
+				<th>日時</th>
+				<th>種別</th>
+				<th>品名</th>
+				<th>金額</th>
+			</tr>
+
+			<tr th:each="account, accountStat : ${list}">
+				<td th:text="${accountStat.count}"></td>
+				<td th:text="${account.date}"></td>
+				<td th:if="${account.type == 1}">食費</td>
+				<td th:if="${account.type == 2}">趣味</td>
+				<td th:if="${account.type == 3}">教養</td>
+				<td th:text="${account.item}"></td>
+				<td th:text="${account.price} + '円'"></td>
+			</tr>
+		</table>
+	</div>
+
+
+	<div th:if="${totalPrice != null}">
+		<table class="table table-striped">
+			<tr>
+				<th>合計金額</th>
+				<td th:text="${totalPrice} + '円'"></td>
+			<tr>
+		</table>
+	</div>
+
+	<br>
+	<div id="top">
+		<a th:href="@{/account}"><input type="button" value="トップに戻る"></a>
+	</div>
+	<br>
+
+	<script>
+		function sliceMaxLength(elem, maxLength) {
+			elem.value = elem.value.slice(0, maxLength);
+		}
+	</script>
+
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

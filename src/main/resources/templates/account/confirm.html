@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/css/styles.css}" rel="stylesheet">
+<title>家計簿</title>
+</head>
+<body>
+
+	<div th:replace="~{block/header::headerAccount}"></div>
+
+	<h1>確認</h1>
+
+	<h2>下記データを削除していいですか？</h2>
+	<table class="table table-striped">
+		<tr>
+			<th>日時</th>
+			<th>種別</th>
+			<th>品名</th>
+			<th>金額</th>
+		</tr>
+
+		<tr>
+			<td th:text="${account.date}"></td>
+			<td th:if="${account.type == 1}">食費</td>
+			<td th:if="${account.type == 2}">趣味</td>
+			<td th:if="${account.type == 3}">教養</td>
+			<td th:text="${account.item}"></td>
+			<td th:text="${account.price}"></td>
+		</tr>
+	</table>
+
+	<form method="post" th:action="@{/account/delete}">
+		<input type="hidden" name="id" th:value="${account.id}">
+		<input type="submit" value="削除">
+	</form>
+
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

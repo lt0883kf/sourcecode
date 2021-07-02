@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/css/styles.css}" rel="stylesheet">
+<title>家計簿</title>
+</head>
+<body>
+
+	<div th:replace="~{block/header::headerAccount}"></div>
+
+	<h1>更新入力画面</h1>
+
+	<h2>下記データを変更してください</h2>
+	<form method="post" th:action="@{/account/updateConfirm}">
+		<input type="hidden" name="id" th:value="${account.id}">
+		日時：<input type="date" name="date" th:value="${account.date}" required><br>
+		種別：
+		<div th:if="${account.type == 1}">
+		<input type="radio" name="type" value="1" checked>食費
+		<input type="radio" name="type" value="2">趣味
+		<input type="radio" name="type" value="3">教養<br>
+		</div>
+		<div th:if="${account.type == 2}">
+		<input type="radio" name="type" value="1">食費
+		<input type="radio" name="type" value="2" checked>趣味
+		<input type="radio" name="type" value="3">教養<br>
+		</div>
+		<div th:if="${account.type == 3}">
+		<input type="radio" name="type" value="1">食費
+		<input type="radio" name="type" value="2">趣味
+		<input type="radio" name="type" value="3" checked>教養<br>
+		</div>
+		品名：<input type="text" name="item" th:value="${account.item}"  maxlength="15" size="30" required><br>
+		金額：<input type="number" name="price" th:value="${account.price}" oninput="sliceMaxLength(this, 8)" required>円<br>
+		<br> <input type="submit" value="更新">
+	</form>
+
+	<script>
+		function sliceMaxLength(elem, maxLength) {
+			elem.value = elem.value.slice(0, maxLength);
+		}
+	</script>
+
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
