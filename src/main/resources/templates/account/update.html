@@ -7,9 +7,7 @@
 <title>家計簿</title>
 </head>
 <body>
-
 	<div th:replace="~{block/header::headerAccount}"></div>
-
 	<h1>更新画面</h1>
 
 	<table class="table table-striped">
@@ -21,7 +19,6 @@
 			<th>金額</th>
 			<th>更新ボタン</th>
 		</tr>
-
 		<tr th:each="account, accountStat : ${list}">
 			<td th:text="${accountStat.count}"></td>
 			<td th:text="${account.date}"></td>
